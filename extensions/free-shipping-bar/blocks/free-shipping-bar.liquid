@@ -1,0 +1,93 @@
+<div
+  id="fsb-container"
+  class="fsb-container"
+  data-threshold="{{ block.settings.threshold | times: 100 | round }}"
+  data-currency="{{ shop.currency }}"
+  data-initial-text="{{ block.settings.initial_text | escape }}"
+  data-progress-text="{{ block.settings.progress_text | escape }}"
+  data-success-text="{{ block.settings.success_text | escape }}"
+  data-position="{{ block.settings.position }}"
+  style="
+    --fsb-bg: {{ block.settings.bg_color }};
+    --fsb-fg: {{ block.settings.text_color }};
+    --fsb-font-size: {{ block.settings.font_size }}px;
+  "
+></div>
+
+{{ 'free-shipping-bar.css' | asset_url | stylesheet_tag }}
+<script defer src="{{ 'free-shipping-bar.js' | asset_url }}"></script>
+
+{% schema %}
+{
+  "name": "Free Shipping Bar",
+  "target": "body",
+  "javascript": "free-shipping-bar.js",
+  "stylesheet": "free-shipping-bar.css",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Alap beállítások"
+    },
+    {
+      "id": "threshold",
+      "type": "number",
+      "label": "Ingyenes szállítás küszöb (bolt pénznemében)",
+      "default": 20000,
+      "info": "Pl. 20000 = 20 000 HUF vagy 20.00 EUR-nál 20"
+    },
+    {
+      "id": "initial_text",
+      "type": "text",
+      "label": "Kezdő üzenet (üres kosárnál)",
+      "default": "🎁 Ingyenes szállítás {{threshold}} felett!"
+    },
+    {
+      "id": "progress_text",
+      "type": "text",
+      "label": "Haladás üzenet",
+      "default": "Már csak {{left}} hiányzik az ingyenes szállításhoz!"
+    },
+    {
+      "id": "success_text",
+      "type": "text",
+      "label": "Siker üzenet",
+      "default": "🎉 Megvan! A rendelésed ingyenes szállítással megy!"
+    },
+    {
+      "type": "header",
+      "content": "Megjelenés"
+    },
+    {
+      "id": "bg_color",
+      "type": "color",
+      "label": "Háttérszín",
+      "default": "#111827"
+    },
+    {
+      "id": "text_color",
+      "type": "color",
+      "label": "Szövegszín",
+      "default": "#ffffff"
+    },
+    {
+      "id": "font_size",
+      "type": "range",
+      "label": "Betűméret (px)",
+      "min": 12,
+      "max": 22,
+      "step": 1,
+      "default": 14
+    },
+    {
+      "id": "position",
+      "type": "select",
+      "label": "Pozíció",
+      "default": "top-fixed",
+      "options": [
+        { "label": "Felül, fix (minden oldalon)", "value": "top-fixed" },
+        { "label": "Oldal tetején, nem fix", "value": "top-static" }
+      ]
+    }
+  ]
+}
+{% endschema %}
